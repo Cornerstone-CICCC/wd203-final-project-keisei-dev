@@ -10,7 +10,7 @@ function ItemDetail() {
   if (loading) {
     return (
       <section className="page">
-        <p>Loading item...</p>
+        <p className="page__status">Loading item...</p>
       </section>
     );
   }
@@ -18,7 +18,7 @@ function ItemDetail() {
   if (error) {
     return (
       <section className="page">
-        <p>Error: {error}</p>
+        <p className="page__status">Error: {error}</p>
       </section>
     );
   }
@@ -28,8 +28,13 @@ function ItemDetail() {
   if (!product) {
     return (
       <section className="page">
-        <h1>Item Not Found</h1>
-        <p>We could not find that menu item.</p>
+        <header className="page-header">
+          <p className="page-header__eyebrow">Menu</p>
+          <h1>Item not found</h1>
+          <p className="page-header__lead">
+            That drink is not on the counter right now.
+          </p>
+        </header>
         <Link to="/items" className="button">
           Back to Menu
         </Link>
@@ -51,6 +56,7 @@ function ItemDetail() {
           className="item-detail__image"
         />
         <div className="item-detail__content">
+          <p className="page-header__eyebrow">Menu item</p>
           <h1>{product.name}</h1>
           <p className="item-detail__price">${price.toFixed(2)}</p>
           <p className="item-detail__desc">{product.desc}</p>

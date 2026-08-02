@@ -1,29 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Pagination from "../components/Pagination.jsx";
 import ProductCard from "../components/ProductCard.jsx";
+import useProducts from "../hooks/useProducts.js";
+
+const ITEMS_PER_PAGE = 8;
 
 function Items() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function loadProducts() {
-      try {
-        const response = await fetch("/products.json");
-        if (!response.ok) {
-          throw new Error("Failed to load products");
-        }
-        const data = await response.json();
-        setProducts(data.products);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadProducts();
-  }, []);
+  const { products, loading, error } = useProducts();
+  const [currentPage, setCurrentPage] = useState(1);
 
   if (loading) {
     return (
@@ -41,14 +25,31 @@ function Items() {
     );
   }
 
+  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentProducts = products.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
+
   return (
     <section className="page">
       <h1>Menu</h1>
+      <p className="page__meta">
+        Showing {startIndex + 1}-
+        {Math.min(startIndex + ITEMS_PER_PAGE, products.length)} of{" "}
+        {products.length} items
+      </p>
       <div className="product-grid">
-        {products.map((product) => (
+        {currentProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
     </section>
   );
 }

@@ -1,9 +1,11 @@
 import { Link, useParams } from "react-router-dom";
+import { useCart } from "../context/CartContext.jsx";
 import useProducts from "../hooks/useProducts.js";
 
 function ItemDetail() {
   const { id } = useParams();
   const { products, loading, error } = useProducts();
+  const { addToCart } = useCart();
 
   if (loading) {
     return (
@@ -52,6 +54,13 @@ function ItemDetail() {
           <h1>{product.name}</h1>
           <p className="item-detail__price">${price.toFixed(2)}</p>
           <p className="item-detail__desc">{product.desc}</p>
+          <button
+            type="button"
+            className="button"
+            onClick={() => addToCart(product)}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </section>

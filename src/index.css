@@ -30,6 +30,22 @@ img {
   min-height: 100vh;
 }
 
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 1.5rem 1.5rem;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -62,9 +78,8 @@ img {
 }
 
 .main {
-  padding: 1.5rem;
-  max-width: 1100px;
-  margin: 0 auto;
+  padding: 1.5rem 0 0;
+  min-width: 0;
 }
 
 .page h1 {
@@ -83,10 +98,133 @@ img {
   background: #2c2118;
   color: #f7f4ef;
   border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
 }
 
 .button:hover {
   background: #443525;
+}
+
+.button--secondary {
+  background: #fff;
+  color: #2c2118;
+  border: 1px solid #2c2118;
+}
+
+.button--secondary:hover {
+  background: #efe8df;
+}
+
+.cart-sidebar {
+  position: sticky;
+  top: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e4ddd3;
+}
+
+.cart-sidebar__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.cart-sidebar__empty {
+  margin: 0;
+  color: #5c4a3a;
+}
+
+.cart-sidebar__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-sidebar__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #efe8df;
+}
+
+.cart-sidebar__name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.cart-sidebar__meta {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: #5c4a3a;
+}
+
+.cart-sidebar__remove {
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #5c4a3a;
+}
+
+.cart-sidebar__total {
+  margin: 1rem 0 0;
+  font-weight: 700;
+}
+
+.cart-sidebar__link {
+  width: 100%;
+  text-align: center;
+}
+
+.cart-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-list__item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e4ddd3;
+}
+
+.cart-list__image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.cart-list__info h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+}
+
+.cart-list__info p {
+  margin: 0;
+  color: #5c4a3a;
+}
+
+.cart-list__total {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .cart-list__item {
+    grid-template-columns: 72px 1fr;
+  }
+
+  .cart-list__item .button {
+    grid-column: 1 / -1;
+  }
 }
 
 .product-grid {

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import CartSidebar from "./components/CartSidebar.jsx";
 import Header from "./components/Header.jsx";
 import Home from "./pages/Home.jsx";
 import Items from "./pages/Items.jsx";
@@ -11,16 +12,19 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <main className="main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/items" element={<Items />} />
-          <Route path="/items/:id" element={<ItemDetail />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+      <div className="layout">
+        <main className="main">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/items" element={<Items />} />
+            <Route path="/items/:id" element={<ItemDetail />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <CartSidebar />
+      </div>
     </div>
   );
 }

@@ -54,6 +54,17 @@ img {
   max-width: 100%;
 }
 
+/* Long drink names must not push the layout sideways on narrow screens. */
+.product-card__name,
+.cart-list__info h2,
+.item-detail__content h1,
+.checkout__item,
+.cart-dock__name,
+.cart-sidebar__name {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
 button,
 input {
   font: inherit;
@@ -1365,8 +1376,17 @@ input {
     gap: 1.5rem;
   }
 
-  .page h1 {
-    font-size: clamp(1.85rem, 9vw, 2.5rem);
+  .page-masthead {
+    padding: 0.5rem 0 1.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-masthead__title {
+    font-size: clamp(2.3rem, 11vw, 3.2rem);
+  }
+
+  .page-body__aside {
+    display: none;
   }
 
   .page-header {
@@ -1384,6 +1404,10 @@ input {
   .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.15rem 0.85rem;
+  }
+
+  .cart-sidebar {
+    position: static;
   }
 
   .product-card__name {
@@ -1438,36 +1462,191 @@ input {
   }
 
   .site-footer__inner {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.35rem 1rem;
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem 2.25rem;
   }
 
   .site-footer__nav {
     width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* Phones are too narrow to keep copy clear of the cup, so the photo becomes a
+   band above the text instead of a backdrop behind it. */
+@media (max-width: 640px) {
+  /* The cup sits low in the frame on a portrait screen, so the copy rides
+     above it on the empty tabletop instead of on top of it. */
+  .home-hero {
+    align-items: flex-start;
+    padding: 7.25rem 1.15rem 1.15rem;
+  }
+
+  .home-hero__media {
+    object-position: 62% 50%;
+  }
+
+  .home-hero__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0.62) 0%,
+      rgba(var(--brown-rgb), 0.42) 30%,
+      rgba(var(--brown-rgb), 0.12) 52%,
+      rgba(var(--brown-rgb), 0.28) 100%
+    );
+  }
+
+  .home-hero__content {
+    max-width: none;
+  }
+
+  .home-hero__text {
+    max-width: 15rem;
+  }
+
+  /* Break at the dash rather than wherever the measure happens to run out,
+     so "coffee and tea" stays whole on the first line. */
+  .home-hero__tail {
+    display: block;
+  }
+
+  /* Page numbers on their own row, with prev/next anchored to the edges below. */
+  .pagination {
+    display: grid;
+    grid-template-columns: auto auto;
     justify-content: space-between;
+    gap: 0.9rem;
+  }
+
+  .pagination__list {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .pagination > .pagination__button:first-child {
+    grid-row: 2;
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .pagination > .pagination__button:last-child {
+    grid-row: 2;
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  /* A shorter dock leaves more of the column for the photo. */
+  .cart-dock {
+    padding: 1.15rem 1.15rem 1.1rem;
+  }
+
+  .cart-dock__header {
+    margin-bottom: 0.5rem;
+  }
+
+  .cart-dock__empty {
+    margin-bottom: 0.7rem;
+  }
+
+  .cart-dock__footer {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cart-dock__button {
+    width: auto;
+    min-width: 7.5rem;
+  }
+}
+
+/* Tablets get a third column before the phone layout kicks in. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem 1.15rem;
+  }
+
+  .layout {
+    padding: 1.75rem 1.5rem 3rem;
   }
 }
 
 @media (max-width: 420px) {
   .header__nav {
     font-size: 0.8rem;
-  }
-
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .home-hero {
-    min-height: min(52dvh, 400px);
-  }
-
-  .home-hero__media {
-    object-position: 80% 26%;
+    gap: 0.25rem;
   }
 
   .home-hero__brand {
     font-size: clamp(1.45rem, 6.5vw, 1.75rem);
+  }
+
+  .layout {
+    padding: 1.25rem 0.9rem 2.25rem;
+  }
+
+  .cart-list__item {
+    grid-template-columns: 64px 1fr;
+    gap: 0.75rem;
+  }
+
+  .cart-list__image {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* Below this the two-up grid gets too cramped to read. */
+@media (max-width: 359px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header__nav {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.35rem 0.85rem;
+  }
+}
+
+/* Landscape phones: the hero has almost no vertical room to spare. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .home-shell {
+    --home-cart-space: max(
+      clamp(6rem, 22vh, 8rem),
+      calc(var(--home-cart-height) + 0.75rem)
+    );
+  }
+
+  .home-hero {
+    min-height: 0;
+    padding-top: 4rem;
+  }
+
+  .cart-dock__list {
+    max-height: 5rem;
+  }
+}
+
+/* Touch devices need larger hit areas than the hover-driven desktop sizes. */
+@media (hover: none) {
+  .pagination__button {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.95rem;
+  }
+
+  .header__nav a {
+    padding: 0.3rem 0;
+  }
+
+  .cart-dock__remove,
+  .cart-sidebar__remove {
+    padding: 0.5rem 0;
+  }
+
+  .product-card__link:hover .product-card__image {
+    transform: none;
   }
 }
 

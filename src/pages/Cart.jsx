@@ -7,64 +7,68 @@ function Cart() {
   if (cartItems.length === 0) {
     return (
       <section className="page page--cart">
-        <header className="page-header">
-          <p className="page-header__eyebrow">Cart</p>
-          <h1>Your order</h1>
-          <p className="page-header__lead">
+        <header className="page-masthead">
+          <p className="page-masthead__eyebrow">Cart</p>
+          <h1 className="page-masthead__title">Your order</h1>
+          <p className="page-masthead__lead">
             Nothing here yet. Browse the menu and pick something for the
             counter.
           </p>
         </header>
-        <Link to="/items" className="button">
-          Browse Menu
-        </Link>
+        <div className="page-body">
+          <Link to="/items" className="button">
+            Browse Menu
+          </Link>
+        </div>
       </section>
     );
   }
 
   return (
     <section className="page page--cart">
-      <header className="page-header">
-        <p className="page-header__eyebrow">Cart</p>
-        <h1>Your order</h1>
-        <p className="page-header__lead">
+      <header className="page-masthead">
+        <p className="page-masthead__eyebrow">Cart</p>
+        <h1 className="page-masthead__title">Your order</h1>
+        <p className="page-masthead__lead">
           Review what you have, remove anything you do not want, then continue
           to checkout.
         </p>
       </header>
 
-      <div className="order-panel">
-        <ul className="cart-list">
-          {cartItems.map((item) => (
-            <li key={item.id} className="cart-list__item">
-              <img
-                src={item.photo}
-                alt={item.name}
-                className="cart-list__image"
-              />
-              <div className="cart-list__info">
-                <h2>{item.name}</h2>
-                <p>
-                  ${item.price.toFixed(2)} × {item.quantity} = $
-                  {(item.price * item.quantity).toFixed(2)}
-                </p>
-              </div>
-              <button
-                type="button"
-                className="button button--secondary"
-                onClick={() => removeFromCart(item.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
+      <div className="page-body">
+        <div className="order-panel">
+          <ul className="cart-list">
+            {cartItems.map((item) => (
+              <li key={item.id} className="cart-list__item">
+                <img
+                  src={item.photo}
+                  alt={item.name}
+                  className="cart-list__image"
+                />
+                <div className="cart-list__info">
+                  <h2>{item.name}</h2>
+                  <p>
+                    ${item.price.toFixed(2)} × {item.quantity} = $
+                    {(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="button button--secondary"
+                  onClick={() => removeFromCart(item.id)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        <div className="page-footer-bar">
-          <p className="cart-list__total">Total: ${total.toFixed(2)}</p>
-          <Link to="/checkout" className="button">
-            Go to Checkout
-          </Link>
+          <div className="page-footer-bar">
+            <p className="cart-list__total">Total: ${total.toFixed(2)}</p>
+            <Link to="/checkout" className="button">
+              Go to Checkout
+            </Link>
+          </div>
         </div>
       </div>
     </section>

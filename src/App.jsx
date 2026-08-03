@@ -9,9 +9,6 @@ import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
-const SITE_PHOTO =
-  "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1600&auto=format&fit=crop";
-
 function AppRoutes() {
   return (
     <Routes>
@@ -43,10 +40,7 @@ function App() {
       ) : (
         <>
           <div className="site-atmosphere" aria-hidden="true">
-            <div
-              className="site-atmosphere__photo"
-              style={{ backgroundImage: `url(${SITE_PHOTO})` }}
-            />
+            <div className="site-atmosphere__grain" />
             <div className="site-atmosphere__veil" />
           </div>
 

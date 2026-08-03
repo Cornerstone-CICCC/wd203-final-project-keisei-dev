@@ -1,6 +1,7 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import CartSidebar from "./components/CartSidebar.jsx";
 import Header from "./components/Header.jsx";
+import ScrollMemory from "./components/ScrollMemory.jsx";
 import SiteFooter from "./components/SiteFooter.jsx";
 import Home from "./pages/Home.jsx";
 import Items from "./pages/Items.jsx";
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <div className={isHome ? "app app--home" : "app app--site"}>
+      <ScrollMemory />
       <Header />
 
       {isHome ? (

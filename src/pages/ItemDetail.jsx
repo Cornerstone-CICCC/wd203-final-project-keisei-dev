@@ -1,11 +1,13 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import useProducts from "../hooks/useProducts.js";
 
 function ItemDetail() {
   const { id } = useParams();
+  const { state } = useLocation();
   const { products, loading, error } = useProducts();
   const { addToCart } = useCart();
+  const backTo = state?.backTo ?? "/items";
 
   if (loading) {
     return (
@@ -35,7 +37,7 @@ function ItemDetail() {
             That drink is not on the counter right now.
           </p>
         </header>
-        <Link to="/items" className="button">
+        <Link to={backTo} className="button">
           Back to Menu
         </Link>
       </section>
@@ -46,7 +48,7 @@ function ItemDetail() {
 
   return (
     <section className="page item-detail">
-      <Link to="/items" className="item-detail__back">
+      <Link to={backTo} className="item-detail__back">
         ← Back to Menu
       </Link>
       <div className="item-detail__layout">

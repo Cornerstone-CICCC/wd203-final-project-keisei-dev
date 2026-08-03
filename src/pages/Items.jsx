@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import useProducts from "../hooks/useProducts.js";
@@ -7,7 +7,7 @@ const ITEMS_PER_PAGE = 8;
 
 function Items() {
   const { products, loading, error } = useProducts();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   if (loading) {
     return (
@@ -25,45 +25,57 @@ function Items() {
     );
   }
 
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE));
+  const requestedPage = Number(searchParams.get("page")) || 1;
+  const currentPage = Math.min(Math.max(requestedPage, 1), totalPages);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentProducts = products.slice(
     startIndex,
     startIndex + ITEMS_PER_PAGE
   );
 
+  function handlePageChange(page) {
+    setSearchParams(page === 1 ? {} : { page: String(page) });
+  }
+
   return (
     <section className="page page--menu">
-      <header className="page-header page-header--split">
-        <div className="page-header__copy">
-          <p className="page-header__eyebrow">Menu</p>
-          <h1>From the counter</h1>
-          <p className="page-header__lead">
-            Coffee and tea, ready to order. Choose a cup and add it to your
-            cart.
-          </p>
+      <header className="page-masthead">
+        <p className="page-masthead__eyebrow">Menu</p>
+        <h1 className="page-masthead__title">From the counter</h1>
+        <p className="page-masthead__lead">
+          Coffee and tea, ready to order. Choose a cup and add it to your cart.
+        </p>
+      </header>
+
+      <div className="page-body">
+        <div className="page-body__bar">
           <p className="page__meta">
             Showing {startIndex + 1}–
             {Math.min(startIndex + ITEMS_PER_PAGE, products.length)} of{" "}
             {products.length}
           </p>
+          <p className="page-body__aside">
+            Espresso, milk drinks, and tea — one cup at a time.
+          </p>
         </div>
-        <aside className="page-header__note" aria-hidden="true">
-          <p>Espresso, milk drinks, and tea — ordered one cup at a time.</p>
-        </aside>
-      </header>
 
-      <div className="product-grid">
-        {currentProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        <div className="product-grid">
+          {currentProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              backTo={currentPage === 1 ? "/items" : `/items?page=${currentPage}`}
+            />
+          ))}
+        </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
     </section>
   );
 }

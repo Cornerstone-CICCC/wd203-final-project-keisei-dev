@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 
@@ -5,42 +6,76 @@ function CartSidebar() {
   const { pathname } = useLocation();
   const { cartItems, total, itemCount, removeFromCart } = useCart();
   const isHome = pathname === "/";
+  const dockRef = useRef(null);
+
+  // The dock floats over the hero photo, so the hero needs to know how much
+  // room to leave for it as the cart grows.
+  useEffect(() => {
+    const dock = dockRef.current;
+    const shell = dock?.parentElement;
+
+    if (!dock || !shell || typeof ResizeObserver === "undefined") {
+      return undefined;
+    }
+
+    const observer = new ResizeObserver(() => {
+      shell.style.setProperty("--home-cart-height", `${dock.offsetHeight}px`);
+    });
+
+    observer.observe(dock);
+
+    return () => {
+      observer.disconnect();
+      shell.style.removeProperty("--home-cart-height");
+    };
+  }, [isHome]);
 
   if (isHome) {
-    const hasItems = cartItems.length > 0;
-    const preview = hasItems
-      ? cartItems
-          .slice(0, 1)
-          .map((item) => `${item.name} ×${item.quantity}`)
-          .join(", ")
-      : "Add a drink from the menu.";
-    const extra =
-      cartItems.length > 1 ? ` +${cartItems.length - 1} more` : "";
-
     return (
-      <aside className="cart-dock" aria-label="Shopping cart">
-        <div className="cart-dock__tab">
-          <span className="cart-dock__tab-label">Cart</span>
+      <aside className="cart-dock" aria-label="Shopping cart" ref={dockRef}>
+        <div className="cart-dock__header">
+          <h2 className="cart-dock__title">Cart</h2>
           <span className="cart-dock__badge" aria-live="polite">
             {itemCount}
           </span>
-          <span className="cart-dock__tab-total">${total.toFixed(2)}</span>
         </div>
 
-        <div className="cart-dock__panel">
-          <div className="cart-dock__panel-inner">
-            <p className="cart-dock__preview">
-              {preview}
-              {extra}
-            </p>
-            <div className="cart-dock__total">
-              <span>Total</span>
-              <strong>${total.toFixed(2)}</strong>
-            </div>
-            <Link to="/cart" className="button button--light cart-dock__button">
-              {hasItems ? "View cart" : "Open cart"}
-            </Link>
-          </div>
+        {cartItems.length === 0 ? (
+          <p className="cart-dock__empty">
+            Your cart is empty. Browse the menu to add something.
+          </p>
+        ) : (
+          <ul className="cart-dock__list">
+            {cartItems.map((item) => (
+              <li key={item.id} className="cart-dock__item">
+                <div className="cart-dock__item-copy">
+                  <p className="cart-dock__name">{item.name}</p>
+                  <p className="cart-dock__meta">
+                    ×{item.quantity} · $
+                    {(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="cart-dock__remove"
+                  onClick={() => removeFromCart(item.id)}
+                  aria-label={`Remove ${item.name}`}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="cart-dock__footer">
+          <p className="cart-dock__total">
+            <span>Total</span>
+            <strong>${total.toFixed(2)}</strong>
+          </p>
+          <Link to="/cart" className="button button--light cart-dock__button">
+            {itemCount > 0 ? "View cart" : "Open cart"}
+          </Link>
         </div>
       </aside>
     );

@@ -264,10 +264,16 @@ input {
 .home-shell {
   --home-inset-x: clamp(1.25rem, 5vw, 4.5rem);
   --home-inset-y: clamp(1.25rem, 5vw, 4.5rem);
+  /* --home-cart-height is measured from the dock so hero copy always clears it. */
+  --home-cart-height: 0px;
+  --home-cart-space: max(
+    clamp(6.75rem, 16vh, 9.5rem),
+    calc(var(--home-cart-height) + 1.25rem)
+  );
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: calc(100dvh - 4.25rem);
+  min-height: 100dvh;
 }
 
 .home-shell__main {
@@ -275,44 +281,45 @@ input {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
-/* Home cart dock: intentional UI control, aligned with hero CTA */
+/* Home cart: translucent wash over the hero bottom (photo shows through). */
 .cart-dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 2;
-  width: auto;
-  min-width: 11.5rem;
-  max-width: 15.5rem;
-  padding: 0.7rem 1rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.35rem clamp(1.15rem, 4vw, 2.5rem) 1.25rem;
   color: var(--paper);
   border: none;
+  box-shadow: none;
+  outline: none;
   animation: none;
   background: linear-gradient(
-    250deg,
-    rgba(20, 14, 10, 0.78) 0%,
-    rgba(20, 14, 10, 0.45) 70%,
-    rgba(20, 14, 10, 0) 100%
+    180deg,
+    rgba(var(--brown-rgb), 0) 0%,
+    rgba(var(--brown-rgb), 0.5) 40%,
+    var(--brown-mid) 100%
   );
 }
 
-.cart-dock__tab {
+.cart-dock__header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  cursor: default;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
 }
 
-.cart-dock__tab-label {
+.cart-dock__title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 600;
-}
-
-.cart-dock__tab-total {
-  margin-left: auto;
-  font-size: 0.9rem;
-  font-weight: 700;
-  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .cart-dock__badge,
@@ -335,47 +342,75 @@ input {
   color: var(--paper);
 }
 
-.cart-dock__panel {
+.cart-dock__empty {
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(250, 246, 241, 0.72);
+}
+
+.cart-dock__list {
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0;
   display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  margin-top: 0;
-  transition:
-    grid-template-rows 0.28s ease,
-    opacity 0.2s ease,
-    margin-top 0.28s ease;
+  gap: 0.55rem;
+  max-height: 9.5rem;
+  overflow: auto;
 }
 
-.cart-dock__panel-inner {
-  overflow: hidden;
-  min-height: 0;
+.cart-dock__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
-.cart-dock:hover .cart-dock__panel,
-.cart-dock:focus-within .cart-dock__panel {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  margin-top: 0.75rem;
-}
-
-.cart-dock__preview {
+.cart-dock__name {
   margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.35;
-  color: rgba(250, 246, 241, 0.82);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.cart-dock__meta {
+  margin: 0.15rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(250, 246, 241, 0.7);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.cart-dock__remove {
+  flex-shrink: 0;
+  padding: 0.25rem 0;
+  border: none;
+  background: transparent;
+  color: rgba(250, 246, 241, 0.72);
+  font: inherit;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.cart-dock__remove:hover {
+  color: var(--paper);
+}
+
+.cart-dock__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(250, 246, 241, 0.1);
 }
 
 .cart-dock__total {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
   gap: 0.75rem;
-  margin: 0.7rem 0 0;
-  padding-top: 0.65rem;
-  border-top: 1px solid rgba(250, 246, 241, 0.16);
+  margin: 0;
   font-size: 0.92rem;
 }
 
@@ -386,8 +421,8 @@ input {
 }
 
 .cart-dock__button {
-  width: 100%;
-  margin-top: 0.75rem;
+  min-width: 8.5rem;
+  margin-top: 0;
   text-align: center;
   background: rgba(250, 246, 241, 0.9);
 }
@@ -396,21 +431,34 @@ input {
   background: #fff;
 }
 
-/* Touch devices: keep the panel open (no hover). */
-@media (hover: none) {
-  .cart-dock__panel {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    margin-top: 0.75rem;
-  }
-}
-
 @media (min-width: 900px) {
   .cart-dock {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 0.85rem 1.25rem 1.15rem 1.75rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 2rem;
+    padding: 1.5rem clamp(1.5rem, 5vw, 4.5rem) 1.25rem;
+  }
+
+  .cart-dock__header {
+    margin-bottom: 0;
+  }
+
+  .cart-dock__list,
+  .cart-dock__empty {
+    margin-bottom: 0;
+  }
+
+  .cart-dock__footer {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 11rem;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .cart-dock__button {
+    width: 100%;
   }
 }
 
@@ -1065,9 +1113,10 @@ input {
   min-height: min(78dvh, 720px);
   display: flex;
   align-items: flex-end;
-  padding: var(--home-inset-y) var(--home-inset-x);
+  padding: var(--home-inset-y) var(--home-inset-x) var(--home-cart-space);
   color: var(--paper);
   overflow: hidden;
+  background: var(--brown-mid);
 }
 
 .home-hero__visual {
@@ -1083,8 +1132,7 @@ input {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Pull the CAFE marquee into the right half, fully readable. */
-  object-position: 72% 48%;
+  object-position: 78% 55%;
   animation: fade-in 0.9s ease both;
 }
 
@@ -1092,24 +1140,19 @@ input {
   position: absolute;
   inset: 0;
   background:
-    /* Dark left for copy; keep the right clearer for CAFE */
     linear-gradient(
       90deg,
-      rgba(20, 14, 10, 0.88) 0%,
-      rgba(20, 14, 10, 0.55) 34%,
-      rgba(20, 14, 10, 0.12) 58%,
-      rgba(20, 14, 10, 0.05) 100%
+      rgba(var(--brown-rgb), 0.48) 0%,
+      rgba(var(--brown-rgb), 0.2) 40%,
+      rgba(var(--brown-rgb), 0.04) 70%,
+      rgba(var(--brown-rgb), 0) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(20, 14, 10, 0.2) 0%,
-      transparent 40%,
-      rgba(20, 14, 10, 0.55) 100%
-    ),
-    radial-gradient(
-      70% 60% at 100% 100%,
-      rgba(20, 14, 10, 0.55) 0%,
-      transparent 65%
+      rgba(var(--brown-rgb), 0.06) 0%,
+      transparent 50%,
+      rgba(var(--brown-rgb), 0.1) 82%,
+      rgba(var(--brown-rgb), 0.18) 100%
     );
 }
 
@@ -1214,15 +1257,24 @@ input {
   }
 
   .home-shell {
-    min-height: calc(100dvh - 5.5rem);
+    min-height: 100dvh;
   }
 
-  /* Full-bleed photo behind copy; smaller type so CAFE stays readable. */
+  .app--home .header {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0.48) 0%,
+      rgba(var(--brown-rgb), 0.18) 70%,
+      rgba(var(--brown-rgb), 0) 100%
+    );
+  }
+
+  /* Full-bleed photo behind copy. */
   .home-hero {
     align-items: flex-end;
     flex: 1;
     min-height: min(58dvh, 460px);
-    padding: 1.15rem 1.15rem 1.25rem;
+    padding: 1.15rem 1.15rem var(--home-cart-space);
   }
 
   .home-hero__visual {
@@ -1235,17 +1287,16 @@ input {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 78% 28%;
+    object-position: 72% 50%;
   }
 
   .home-hero__shade {
     background: linear-gradient(
       180deg,
-      rgba(20, 14, 10, 0.18) 0%,
-      rgba(20, 14, 10, 0.06) 30%,
-      rgba(20, 14, 10, 0.35) 58%,
-      rgba(20, 14, 10, 0.78) 82%,
-      rgba(20, 14, 10, 0.9) 100%
+      rgba(var(--brown-rgb), 0.12) 0%,
+      rgba(var(--brown-rgb), 0.04) 30%,
+      rgba(var(--brown-rgb), 0.14) 64%,
+      rgba(var(--brown-rgb), 0.24) 100%
     );
   }
 
@@ -1282,24 +1333,31 @@ input {
   }
 
   .cart-dock {
-    position: relative;
-    right: auto;
-    bottom: auto;
+    display: block;
+    padding: 1.4rem 1.15rem 1.15rem;
+  }
+
+  .cart-dock__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cart-dock__button {
     width: 100%;
-    max-width: none;
-    min-width: 0;
-    margin: 0;
-    padding: 0.9rem 1.15rem 1.15rem;
-    background: #140e0b;
   }
 
   .site-atmosphere {
-    height: min(34vh, 240px);
+    inset: 0;
+    height: auto;
   }
 
-  .site-atmosphere__photo {
-    filter: blur(12px) saturate(1.05) brightness(0.95);
-    opacity: 0.75;
+  .site-atmosphere__grain {
+    background-image: radial-gradient(
+      120% 55% at 30% -8%,
+      rgba(255, 238, 214, 0.18) 0%,
+      rgba(255, 238, 214, 0.05) 45%,
+      transparent 72%
+    );
   }
 
   .layout {

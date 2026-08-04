@@ -1,4 +1,12 @@
-function Pagination({ currentPage, totalPages, onPageChange }) {
+import styles from "./Pagination.module.css";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
+
+function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   if (totalPages <= 1) {
     return null;
   }
@@ -6,25 +14,25 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
 
   return (
-    <nav className="pagination" aria-label="Menu pagination">
+    <nav className={styles.pagination} aria-label="Menu pagination">
       <button
         type="button"
-        className="pagination__button"
+        className={styles.button}
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
         Previous
       </button>
 
-      <ul className="pagination__list">
+      <ul className={styles.list}>
         {pages.map((page) => (
           <li key={page}>
             <button
               type="button"
               className={
                 page === currentPage
-                  ? "pagination__button pagination__button--active"
-                  : "pagination__button"
+                  ? `${styles.button} ${styles.active}`
+                  : styles.button
               }
               onClick={() => onPageChange(page)}
               aria-current={page === currentPage ? "page" : undefined}
@@ -37,7 +45,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
       <button
         type="button"
-        className="pagination__button"
+        className={styles.button}
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >

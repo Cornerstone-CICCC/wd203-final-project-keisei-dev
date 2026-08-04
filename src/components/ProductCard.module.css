@@ -1,0 +1,67 @@
+.card {
+  background: transparent;
+  border: none;
+  overflow: hidden;
+}
+
+.link {
+  display: block;
+}
+
+.media {
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border: none;
+  outline: none;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.link:hover .image {
+  transform: scale(1.04);
+}
+
+.body {
+  padding: 0.95rem 0 0;
+}
+
+.name {
+  composes: wrapAnywhere from "../styles/shared.module.css";
+  margin: 0 0 0.3rem;
+  font-size: 1.28rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.link:hover .name {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.price {
+  composes: numeric from "../styles/shared.module.css";
+  margin: 0;
+  color: rgba(250, 246, 241, 0.68);
+  font-weight: 600;
+}
+
+@media (max-width: 899px) {
+  .name {
+    font-size: 1.05rem;
+  }
+
+  .price {
+    font-size: 0.9rem;
+  }
+}
+
+@media (hover: none) {
+  .link:hover .image {
+    transform: none;
+  }
+}

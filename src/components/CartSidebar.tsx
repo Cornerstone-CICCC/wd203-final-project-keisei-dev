@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useCart } from "../context/CartContext.jsx";
+import { useCart } from "../context/CartContext";
+import styles from "./CartSidebar.module.css";
 
 function CartSidebar() {
   const { pathname } = useLocation();
   const { cartItems, total, itemCount, removeFromCart } = useCart();
   const isHome = pathname === "/";
-  const dockRef = useRef(null);
+  const dockRef = useRef<HTMLElement>(null);
 
   // The dock floats over the hero photo, so the hero needs to know how much
   // room to leave for it as the cart grows.
@@ -32,32 +33,32 @@ function CartSidebar() {
 
   if (isHome) {
     return (
-      <aside className="cart-dock" aria-label="Shopping cart" ref={dockRef}>
-        <div className="cart-dock__header">
-          <h2 className="cart-dock__title">Cart</h2>
-          <span className="cart-dock__badge" aria-live="polite">
+      <aside className={styles.dock} aria-label="Shopping cart" ref={dockRef}>
+        <div className={styles.dockHeader}>
+          <h2 className={styles.dockTitle}>Cart</h2>
+          <span className={styles.dockBadge} aria-live="polite">
             {itemCount}
           </span>
         </div>
 
         {cartItems.length === 0 ? (
-          <p className="cart-dock__empty">
+          <p className={styles.dockEmpty}>
             Your cart is empty. Browse the menu to add something.
           </p>
         ) : (
-          <ul className="cart-dock__list">
+          <ul className={styles.dockList}>
             {cartItems.map((item) => (
-              <li key={item.id} className="cart-dock__item">
-                <div className="cart-dock__item-copy">
-                  <p className="cart-dock__name">{item.name}</p>
-                  <p className="cart-dock__meta">
+              <li key={item.id} className={styles.dockItem}>
+                <div>
+                  <p className={styles.dockName}>{item.name}</p>
+                  <p className={styles.dockMeta}>
                     ×{item.quantity} · $
                     {(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
                 <button
                   type="button"
-                  className="cart-dock__remove"
+                  className={styles.dockRemove}
                   onClick={() => removeFromCart(item.id)}
                   aria-label={`Remove ${item.name}`}
                 >
@@ -68,12 +69,12 @@ function CartSidebar() {
           </ul>
         )}
 
-        <div className="cart-dock__footer">
-          <p className="cart-dock__total">
+        <div className={styles.dockFooter}>
+          <p className={styles.dockTotal}>
             <span>Total</span>
             <strong>${total.toFixed(2)}</strong>
           </p>
-          <Link to="/cart" className="button button--light cart-dock__button">
+          <Link to="/cart" className={styles.dockButton}>
             {itemCount > 0 ? "View cart" : "Open cart"}
           </Link>
         </div>
@@ -82,31 +83,31 @@ function CartSidebar() {
   }
 
   return (
-    <aside className="cart-sidebar" aria-label="Shopping cart">
-      <div className="cart-sidebar__header">
-        <h2 className="cart-sidebar__title">Your cart</h2>
-        <span className="cart-sidebar__badge" aria-live="polite">
+    <aside className={styles.sidebar} aria-label="Shopping cart">
+      <div className={styles.sidebarHeader}>
+        <h2 className={styles.sidebarTitle}>Your cart</h2>
+        <span className={styles.sidebarBadge} aria-live="polite">
           {itemCount}
         </span>
       </div>
 
       {cartItems.length === 0 ? (
-        <p className="cart-sidebar__empty">
+        <p className={styles.sidebarEmpty}>
           Your cart is empty. Browse the menu to add something.
         </p>
       ) : (
-        <ul className="cart-sidebar__list">
+        <ul className={styles.sidebarList}>
           {cartItems.map((item) => (
-            <li key={item.id} className="cart-sidebar__item">
-              <div className="cart-sidebar__item-copy">
-                <p className="cart-sidebar__name">{item.name}</p>
-                <p className="cart-sidebar__meta">
+            <li key={item.id} className={styles.sidebarItem}>
+              <div>
+                <p className={styles.sidebarName}>{item.name}</p>
+                <p className={styles.sidebarMeta}>
                   ×{item.quantity} · ${(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
               <button
                 type="button"
-                className="cart-sidebar__remove"
+                className={styles.sidebarRemove}
                 onClick={() => removeFromCart(item.id)}
                 aria-label={`Remove ${item.name}`}
               >
@@ -117,16 +118,16 @@ function CartSidebar() {
         </ul>
       )}
 
-      <div className="cart-sidebar__footer">
-        <p className="cart-sidebar__total">
+      <div className={styles.sidebarFooter}>
+        <p className={styles.sidebarTotal}>
           <span>Total</span>
           <strong>${total.toFixed(2)}</strong>
         </p>
-        <Link to="/cart" className="button cart-sidebar__link">
+        <Link to="/cart" className={styles.sidebarLink}>
           View cart
         </Link>
         {itemCount > 0 && (
-          <Link to="/checkout" className="cart-sidebar__secondary">
+          <Link to="/checkout" className={styles.sidebarSecondary}>
             Checkout
           </Link>
         )}

@@ -1,0 +1,91 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(250, 246, 241, 0.12);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.button {
+  composes: numeric from "../styles/shared.module.css";
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(250, 246, 241, 0.22);
+  background: rgba(var(--brown-rgb), 0.45);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: rgba(250, 246, 241, 0.12);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.active {
+  background: rgba(250, 246, 241, 0.92);
+  border-color: transparent;
+  color: var(--ink);
+}
+
+@media (max-width: 899px) {
+  .pagination {
+    gap: 0.45rem;
+    margin-top: 1.75rem;
+  }
+
+  .button {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.88rem;
+  }
+}
+
+/* Page numbers on their own row, with prev/next anchored to the edges below. */
+@media (max-width: 640px) {
+  .pagination {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    gap: 0.9rem;
+  }
+
+  .list {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .pagination > .button:first-child {
+    grid-row: 2;
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .pagination > .button:last-child {
+    grid-row: 2;
+    grid-column: 2;
+    justify-self: end;
+  }
+}
+
+/* Touch devices need larger hit areas than the hover-driven desktop sizes. */
+@media (hover: none) {
+  .button {
+    min-height: 2.75rem;
+    padding: 0.5rem 0.95rem;
+  }
+}

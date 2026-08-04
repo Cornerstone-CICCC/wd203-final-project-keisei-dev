@@ -1,0 +1,360 @@
+/* Two shapes of the same cart: a dock across the bottom of the hero on home,
+   and a sticky column beside the content on every other page. */
+
+/* ---------- Dock (home) ---------- */
+
+/* Translucent wash over the hero bottom, so the photo shows through. */
+.dock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.35rem clamp(1.15rem, 4vw, 2.5rem) 1.25rem;
+  color: var(--paper);
+  border: none;
+  box-shadow: none;
+  outline: none;
+  animation: none;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--brown-rgb), 0) 0%,
+    rgba(var(--brown-rgb), 0.5) 40%,
+    var(--brown-mid) 100%
+  );
+}
+
+.dockHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.dockTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.dockBadge {
+  composes: badge from "../styles/shared.module.css";
+  --badge-border: rgba(250, 246, 241, 0.16);
+  color: var(--paper);
+  background: rgba(var(--brown-rgb), 0.2);
+}
+
+.dockEmpty {
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(250, 246, 241, 0.72);
+}
+
+.dockList {
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+  max-height: 9.5rem;
+  overflow: auto;
+}
+
+.dockItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.dockName {
+  composes: wrapAnywhere from "../styles/shared.module.css";
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.dockMeta {
+  margin: 0.15rem 0 0;
+  font-size: 0.82rem;
+  color: rgba(250, 246, 241, 0.7);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.dockRemove {
+  flex-shrink: 0;
+  padding: 0.25rem 0;
+  border: none;
+  background: transparent;
+  color: rgba(250, 246, 241, 0.72);
+  font: inherit;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  cursor: pointer;
+}
+
+.dockRemove:hover {
+  color: var(--paper);
+}
+
+.dockFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(250, 246, 241, 0.1);
+}
+
+.dockTotal {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.dockTotal strong {
+  font-size: 1.05rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.dockButton {
+  composes: button buttonLight from "../styles/shared.module.css";
+  min-width: 8.5rem;
+  text-align: center;
+  --button-gap: 0;
+}
+
+/* ---------- Sidebar (inner pages) ---------- */
+
+.sidebar {
+  position: sticky;
+  top: 5.5rem;
+  margin-top: 0;
+  align-self: start;
+  padding: 1rem 1.05rem 1.15rem;
+  color: var(--paper);
+  background: linear-gradient(
+    180deg,
+    rgba(74, 54, 40, 0.45) 0%,
+    rgba(74, 54, 40, 0.65) 55%,
+    rgba(60, 44, 32, 0.8) 100%
+  );
+  border: 1px solid rgba(250, 246, 241, 0.1);
+  animation: fade-up 0.45s ease both;
+  z-index: 2;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.sidebarBadge {
+  composes: badge from "../styles/shared.module.css";
+  --badge-border: rgba(250, 246, 241, 0.22);
+  color: var(--paper);
+  background: rgba(var(--brown-rgb), 0.28);
+}
+
+.sidebarEmpty {
+  margin: 0;
+  color: rgba(250, 246, 241, 0.7);
+  line-height: 1.5;
+}
+
+.sidebarList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebarItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(250, 246, 241, 0.12);
+}
+
+.sidebarName {
+  composes: wrapAnywhere from "../styles/shared.module.css";
+  margin: 0;
+  font-weight: 600;
+}
+
+.sidebarMeta {
+  composes: numeric from "../styles/shared.module.css";
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: rgba(250, 246, 241, 0.68);
+}
+
+.sidebarRemove {
+  border: none;
+  background: transparent;
+  padding: 0.15rem 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  color: rgba(250, 246, 241, 0.68);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.sidebarRemove:hover {
+  color: var(--paper);
+}
+
+.sidebarFooter {
+  margin-top: 1rem;
+}
+
+.sidebarTotal {
+  composes: numeric from "../styles/shared.module.css";
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 0 0.85rem;
+  font-weight: 600;
+}
+
+.sidebarTotal strong {
+  font-size: 1.05rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.sidebarLink {
+  composes: button from "../styles/shared.module.css";
+  --button-gap: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.sidebarSecondary {
+  display: block;
+  margin-top: 0.65rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(250, 246, 241, 0.72);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+}
+
+.sidebarSecondary:hover {
+  color: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .dock {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 2rem;
+    padding: 1.5rem clamp(1.5rem, 5vw, 4.5rem) 1.25rem;
+  }
+
+  .dockHeader {
+    margin-bottom: 0;
+  }
+
+  .dockList,
+  .dockEmpty {
+    margin-bottom: 0;
+  }
+
+  .dockFooter {
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 11rem;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .dockButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 899px) {
+  .dock {
+    display: block;
+    padding: 1.4rem 1.15rem 1.15rem;
+  }
+
+  .dockFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dockButton {
+    width: 100%;
+  }
+
+  .sidebar {
+    position: static;
+    padding: 1.25rem 1.05rem 1.15rem;
+    border-top: 1px solid rgba(250, 246, 241, 0.1);
+  }
+}
+
+/* A shorter dock leaves more of the column for the photo. */
+@media (max-width: 640px) {
+  .dock {
+    padding: 1.15rem 1.15rem 1.1rem;
+  }
+
+  .dockHeader {
+    margin-bottom: 0.5rem;
+  }
+
+  .dockEmpty {
+    margin-bottom: 0.7rem;
+  }
+
+  .dockFooter {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .dockButton {
+    width: auto;
+    min-width: 7.5rem;
+  }
+}
+
+/* Landscape phones: the hero has almost no vertical room to spare. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .dockList {
+    max-height: 5rem;
+  }
+}
+
+/* Touch devices need larger hit areas than the hover-driven desktop sizes. */
+@media (hover: none) {
+  .dockRemove,
+  .sidebarRemove {
+    padding: 0.5rem 0;
+  }
+}

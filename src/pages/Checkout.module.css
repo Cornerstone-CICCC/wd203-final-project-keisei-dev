@@ -1,0 +1,23 @@
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  composes: wrapAnywhere numeric from "../styles/shared.module.css";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px dashed rgba(250, 246, 241, 0.14);
+  color: rgba(250, 246, 241, 0.88);
+}
+
+.total {
+  composes: numeric from "../styles/shared.module.css";
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}

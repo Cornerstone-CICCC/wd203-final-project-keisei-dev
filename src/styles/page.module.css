@@ -1,0 +1,129 @@
+/* Chrome shared by every inner page: the masthead, the body below it and the
+   panel that closes a page off. */
+
+.masthead {
+  margin: 0 0 2rem;
+  max-width: 40rem;
+  padding: 1.25rem 0 1.75rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c4a574;
+}
+
+/* Every page heading, whether it sits in a masthead or on its own. */
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+.lead {
+  margin: 1rem 0 0;
+  max-width: 28rem;
+  font-size: clamp(1.02rem, 2.2vw, 1.15rem);
+  line-height: 1.6;
+  color: rgba(250, 246, 241, 0.78);
+}
+
+.body {
+  padding-top: 0.35rem;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(250, 246, 241, 0.12);
+}
+
+.aside {
+  margin: 0;
+  max-width: 18rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.4;
+  color: rgba(250, 246, 241, 0.58);
+}
+
+.meta {
+  composes: numeric from "./shared.module.css";
+  margin: 1rem 0 0;
+  color: rgba(250, 246, 241, 0.62);
+  font-size: 0.92rem;
+}
+
+.status {
+  color: rgba(250, 246, 241, 0.7);
+}
+
+.footerBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(250, 246, 241, 0.14);
+}
+
+/* The button that closes a page off, sitting on the footer bar's baseline. */
+.footerAction {
+  composes: button from "./shared.module.css";
+  --button-gap: 0;
+}
+
+.orderPanel {
+  max-width: 42rem;
+  padding: 0.25rem 0 0;
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(250, 246, 241, 0.12);
+}
+
+.orderPanelTicket {
+  max-width: 34rem;
+}
+
+.stamp {
+  margin: 1rem 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c4a574;
+}
+
+@media (max-width: 899px) {
+  .masthead {
+    padding: 0.5rem 0 1.35rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .aside {
+    display: none;
+  }
+
+  .footerBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footerAction {
+    width: 100%;
+    text-align: center;
+  }
+}

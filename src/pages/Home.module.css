@@ -1,0 +1,207 @@
+.hero {
+  position: relative;
+  flex: 1;
+  min-height: min(78dvh, 720px);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--home-inset-y) var(--home-inset-x) var(--home-cart-space);
+  color: var(--paper);
+  overflow: hidden;
+  background: var(--brown-mid);
+}
+
+.visual {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 78% 55%;
+  animation: fade-in 0.9s ease both;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(var(--brown-rgb), 0.48) 0%,
+      rgba(var(--brown-rgb), 0.2) 40%,
+      rgba(var(--brown-rgb), 0.04) 70%,
+      rgba(var(--brown-rgb), 0) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0.06) 0%,
+      transparent 50%,
+      rgba(var(--brown-rgb), 0.1) 82%,
+      rgba(var(--brown-rgb), 0.18) 100%
+    );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: min(28rem, 42%);
+  animation: fade-up 0.8s ease 0.08s both;
+}
+
+.brand {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+}
+
+.headline {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.8vw, 1.95rem);
+  font-weight: 500;
+  color: rgba(250, 246, 241, 0.94);
+}
+
+.text {
+  margin: 0;
+  max-width: 26rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.55;
+  color: rgba(250, 246, 241, 0.84);
+}
+
+.actions {
+  margin-top: 1.25rem;
+}
+
+.button {
+  composes: button buttonLight from "../styles/shared.module.css";
+  --button-gap: 0;
+  min-width: 9.5rem;
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  /* Full-bleed photo behind the copy. */
+  .hero {
+    align-items: flex-end;
+    flex: 1;
+    min-height: min(58dvh, 460px);
+    padding: 1.15rem 1.15rem var(--home-cart-space);
+  }
+
+  .visual {
+    position: absolute;
+    inset: 0;
+  }
+
+  .media {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% 50%;
+  }
+
+  .shade {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0.12) 0%,
+      rgba(var(--brown-rgb), 0.04) 30%,
+      rgba(var(--brown-rgb), 0.14) 64%,
+      rgba(var(--brown-rgb), 0.24) 100%
+    );
+  }
+
+  .content {
+    max-width: min(20rem, 100%);
+    background: transparent;
+  }
+
+  .brand {
+    margin-bottom: 0.3rem;
+    font-size: clamp(1.55rem, 7vw, 1.9rem);
+  }
+
+  .headline {
+    margin-bottom: 0.3rem;
+    font-size: clamp(0.98rem, 3.6vw, 1.12rem);
+  }
+
+  .text {
+    max-width: 18rem;
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .actions {
+    margin-top: 0.85rem;
+  }
+
+  .button {
+    --button-padding: 0.6rem 1.05rem;
+    min-width: 0;
+    width: auto;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  /* The cup sits low in the frame on a portrait screen, so the copy rides
+     above it on the empty tabletop instead of on top of it. */
+  .hero {
+    align-items: flex-start;
+    padding: 7.25rem 1.15rem 1.15rem;
+  }
+
+  .media {
+    object-position: 62% 50%;
+  }
+
+  .shade {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0.62) 0%,
+      rgba(var(--brown-rgb), 0.42) 30%,
+      rgba(var(--brown-rgb), 0.12) 52%,
+      rgba(var(--brown-rgb), 0.28) 100%
+    );
+  }
+
+  .content {
+    max-width: none;
+  }
+
+  .text {
+    max-width: 15rem;
+  }
+
+  /* Break at the dash rather than wherever the measure happens to run out,
+     so "coffee and tea" stays whole on the first line. */
+  .tail {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand {
+    font-size: clamp(1.45rem, 6.5vw, 1.75rem);
+  }
+}
+
+/* Landscape phones: the hero has almost no vertical room to spare. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .hero {
+    min-height: 0;
+    padding-top: 4rem;
+  }
+}

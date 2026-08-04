@@ -1,7 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import Pagination from "../components/Pagination.jsx";
-import ProductCard from "../components/ProductCard.jsx";
-import useProducts from "../hooks/useProducts.js";
+import Pagination from "../components/Pagination";
+import ProductCard from "../components/ProductCard";
+import useProducts from "../hooks/useProducts";
+import page from "../styles/page.module.css";
+import styles from "./Items.module.css";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -11,16 +13,16 @@ function Items() {
 
   if (loading) {
     return (
-      <section className="page">
-        <p className="page__status">Loading menu...</p>
+      <section>
+        <p className={page.status}>Loading menu...</p>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="page">
-        <p className="page__status">Error: {error}</p>
+      <section>
+        <p className={page.status}>Error: {error}</p>
       </section>
     );
   }
@@ -34,33 +36,33 @@ function Items() {
     startIndex + ITEMS_PER_PAGE
   );
 
-  function handlePageChange(page) {
-    setSearchParams(page === 1 ? {} : { page: String(page) });
+  function handlePageChange(nextPage: number) {
+    setSearchParams(nextPage === 1 ? {} : { page: String(nextPage) });
   }
 
   return (
-    <section className="page page--menu">
-      <header className="page-masthead">
-        <p className="page-masthead__eyebrow">Menu</p>
-        <h1 className="page-masthead__title">From the counter</h1>
-        <p className="page-masthead__lead">
+    <section>
+      <header className={page.masthead}>
+        <p className={page.eyebrow}>Menu</p>
+        <h1 className={page.title}>From the counter</h1>
+        <p className={page.lead}>
           Coffee and tea, ready to order. Choose a cup and add it to your cart.
         </p>
       </header>
 
-      <div className="page-body">
-        <div className="page-body__bar">
-          <p className="page__meta">
+      <div className={page.body}>
+        <div className={page.bar}>
+          <p className={page.meta}>
             Showing {startIndex + 1}–
             {Math.min(startIndex + ITEMS_PER_PAGE, products.length)} of{" "}
             {products.length}
           </p>
-          <p className="page-body__aside">
+          <p className={page.aside}>
             Espresso, milk drinks, and tea — one cup at a time.
           </p>
         </div>
 
-        <div className="product-grid">
+        <div className={styles.grid}>
           {currentProducts.map((product) => (
             <ProductCard
               key={product.id}

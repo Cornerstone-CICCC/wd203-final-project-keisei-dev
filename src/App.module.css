@@ -1,0 +1,176 @@
+/* The two shells the app switches between: the full-bleed home, and the inner
+   pages with their backdrop, content column and footer. */
+
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.home {
+  min-height: 100dvh;
+  background: var(--brown-mid);
+}
+
+.site {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--brown-mid);
+  color: var(--paper);
+}
+
+/* Backdrop for inner pages, drawn in CSS so no photo competes with the
+   product shots. */
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--brown-mid);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    100% 70% at 20% -10%,
+    rgba(255, 238, 214, 0.2) 0%,
+    rgba(255, 238, 214, 0.05) 45%,
+    transparent 70%
+  );
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      130% 90% at 78% 110%,
+      rgba(40, 26, 16, 0.35) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(var(--brown-rgb), 0) 0%,
+      rgba(var(--brown-rgb), 0.2) 55%,
+      var(--brown-deep) 100%
+    );
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 2.25rem 1.5rem 3.5rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.main {
+  padding: 0;
+  min-width: 0;
+  animation: fade-up 0.55s ease both;
+}
+
+.homeShell {
+  --home-inset-x: clamp(1.25rem, 5vw, 4.5rem);
+  --home-inset-y: clamp(1.25rem, 5vw, 4.5rem);
+  /* --home-cart-height is measured from the dock so hero copy always clears it. */
+  --home-cart-height: 0px;
+  --home-cart-space: max(
+    clamp(6.75rem, 16vh, 9.5rem),
+    calc(var(--home-cart-height) + 1.25rem)
+  );
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.homeShellMain {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 3rem;
+    padding: 2.75rem 1.5rem 4rem;
+  }
+}
+
+@media (max-width: 899px) {
+  .homeShell {
+    min-height: 100dvh;
+  }
+
+  .atmosphere {
+    inset: 0;
+    height: auto;
+  }
+
+  .grain {
+    background-image: radial-gradient(
+      120% 55% at 30% -8%,
+      rgba(255, 238, 214, 0.18) 0%,
+      rgba(255, 238, 214, 0.05) 45%,
+      transparent 72%
+    );
+  }
+
+  .layout {
+    padding: 1.25rem 1rem 2.25rem;
+    gap: 1.5rem;
+  }
+}
+
+/* Tablets keep a roomier gutter than phones. */
+@media (min-width: 600px) and (max-width: 899px) {
+  .layout {
+    padding: 1.75rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .layout {
+    padding: 1.25rem 0.9rem 2.25rem;
+  }
+}
+
+/* Landscape phones: the hero has almost no vertical room to spare. */
+@media (max-height: 560px) and (orientation: landscape) {
+  .homeShell {
+    --home-cart-space: max(
+      clamp(6rem, 22vh, 8rem),
+      calc(var(--home-cart-height) + 0.75rem)
+    );
+  }
+}

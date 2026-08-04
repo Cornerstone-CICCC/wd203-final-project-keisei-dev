@@ -1,11 +1,17 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { CartProvider } from "./context/CartContext.jsx";
-import App from "./App.jsx";
+import { CartProvider } from "./context/CartContext";
+import App from "./App";
 import "./index.css";
 
-createRoot(document.getElementById("root")).render(
+const container = document.getElementById("root");
+
+if (!container) {
+  throw new Error("Root element #root is missing from index.html");
+}
+
+createRoot(container).render(
   <StrictMode>
     <BrowserRouter>
       <CartProvider>

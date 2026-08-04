@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
+import type { Product } from "../types";
+
+type UseProducts = {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+};
 
 // The menu is the same for the whole visit, so it is kept in memory. A remount
 // (going Back to the list, for example) can then paint the grid right away
 // instead of showing the loading state and collapsing the page height.
-let cache = null;
-let request = null;
+let cache: Product[] | null = null;
+let request: Promise<Product[]> | null = null;
 
-function fetchProducts() {
+function fetchProducts(): Promise<Product[]> {
   if (cache) {
     return Promise.resolve(cache);
   }
@@ -17,14 +24,14 @@ function fetchProducts() {
         if (!response.ok) {
           throw new Error("Failed to load products");
         }
-        return response.json();
+        return response.json() as Promise<{ products: Product[] }>;
       })
       .then((data) => {
         cache = data.products;
         request = null;
         return cache;
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         request = null;
         throw err;
       });
@@ -33,10 +40,10 @@ function fetchProducts() {
   return request;
 }
 
-function useProducts() {
-  const [products, setProducts] = useState(cache ?? []);
+function useProducts(): UseProducts {
+  const [products, setProducts] = useState<Product[]>(cache ?? []);
   const [loading, setLoading] = useState(!cache);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (cache) {
@@ -52,9 +59,9 @@ function useProducts() {
           setLoading(false);
         }
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         if (active) {
-          setError(err.message);
+          setError(err instanceof Error ? err.message : "Failed to load products");
           setLoading(false);
         }
       });

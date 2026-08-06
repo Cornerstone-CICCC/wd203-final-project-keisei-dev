@@ -27,7 +27,12 @@ function fetchProducts(): Promise<Product[]> {
         return response.json() as Promise<{ products: Product[] }>;
       })
       .then((data) => {
-        cache = data.products;
+        // Serve optimized copies from /public so the menu is not waiting on
+        // dozens of third-party image hosts.
+        cache = data.products.map((product) => ({
+          ...product,
+          photo: `/images/products/${product.id}.jpg`,
+        }));
         request = null;
         return cache;
       })

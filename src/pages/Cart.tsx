@@ -43,7 +43,13 @@ function Cart() {
           <ul className={styles.list}>
             {cartItems.map((item) => (
               <li key={item.id} className={styles.item}>
-                <img src={item.photo} alt={item.name} className={styles.image} />
+                <img
+                  src={item.photo}
+                  alt={item.name}
+                  className={styles.image}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <div className={styles.info}>
                   <h2>{item.name}</h2>
                   <p>

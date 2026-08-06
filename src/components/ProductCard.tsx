@@ -19,7 +19,13 @@ function ProductCard({ product, backTo }: ProductCardProps) {
         className={styles.link}
       >
         <div className={styles.media}>
-          <img src={product.photo} alt={product.name} className={styles.image} />
+          <img
+            src={product.photo}
+            alt={product.name}
+            className={styles.image}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
         <div className={styles.body}>
           <h2 className={styles.name}>{product.name}</h2>

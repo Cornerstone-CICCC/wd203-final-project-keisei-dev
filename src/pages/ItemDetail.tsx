@@ -57,7 +57,13 @@ function ItemDetail() {
         ← Back to Menu
       </Link>
       <div className={styles.layout}>
-        <img src={product.photo} alt={product.name} className={styles.image} />
+        <img
+          src={product.photo}
+          alt={product.name}
+          className={styles.image}
+          fetchPriority="high"
+          decoding="async"
+        />
         <div>
           <p className={styles.contentEyebrow}>Menu item</p>
           <h1 className={styles.title}>{product.name}</h1>

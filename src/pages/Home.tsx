@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 
-const HERO_IMAGE =
-  "https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg?auto=compress&cs=tinysrgb&w=2000";
+const HERO_IMAGE = "/images/hero.jpg";
 
 function Home() {
   return (
@@ -13,6 +12,8 @@ function Home() {
           src={HERO_IMAGE}
           alt=""
           aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className={styles.shade} aria-hidden="true" />
       </div>
